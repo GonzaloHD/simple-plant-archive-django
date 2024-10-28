@@ -18,3 +18,4 @@ class PlantListCreateAPIView(generics.ListCreateAPIView):
 class PlantRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Plant.objects.all()
     serializer_class = PlantSerializer
+    parser_classes = [MultiPartParser, FormParser]  # Allow file uploads and form data

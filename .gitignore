@@ -4,3 +4,13 @@ venv/
 # Ignore Django migrations
 **/migrations/
 
+# Ignore media files
+**/media/
+
+# Ignore pycache
+**/__pycache__/
+
+# Ignore static files
+**/static/
+
+
