@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 import os
 from pathlib import Path
+import logging
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,9 +25,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-(e9sx(r=75hv%xni#rcm4)0&67c34+her^!%7dqlghem1=l0lc'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['gonzalohd.eu', 'plantsapi.gonzalohd.eu', 'localhost', '192.168.1.139', '127.0.0.1']
+# ALLOWED_HOSTS = ['*']
+
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://succulentspectrum.gonzalohd.eu",
+]
+
 
 
 # Application definition
@@ -139,17 +147,48 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'  # This URL will be used in HTML to load static assets
+# STATIC_ROOT = '/var/www/simple-plant-archive-django/staticfiles'  # Path where collectstatic will store files
+STATIC_ROOT = os.path.join(BASE_DIR.parent, 'staticfiles')  # or any other directory
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # or any other directory
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
+# Remove or comment out STATICFILES_DIRS in production
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'static'),
+# ]
+
+# Media files (Uploaded content)
+
+MEDIA_URL = '/media/'# Base URL for media files
+# MEDIA_ROOT = '/var/www/simple-plant-archive-django/media'
+MEDIA_ROOT = os.path.join(BASE_DIR.parent, 'media')  # Path to store uploaded files
+# MEDIA_ROOT = '/var/www/simple-plant-archive-django/media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+import os
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'ERROR',  # You can set this to 'DEBUG' for more verbose output
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'django_error.log'),
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'ERROR',  # Match this level to the handler level
+            'propagate': True,
+        },
+    },
+}
+
+
+
+USE_X_FORWARDED_HOST = True

@@ -6,11 +6,16 @@ venv/
 
 # Ignore media files
 **/media/
+media/
 
 # Ignore pycache
 **/__pycache__/
+__pycache__/
 
 # Ignore static files
 **/static/
+static/
 
-
+# Ignore staticfiles directory
+**/staticfiles/
+staticfiles/
