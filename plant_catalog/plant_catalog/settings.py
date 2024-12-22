@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 import os
 from pathlib import Path
-import logging
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,6 +32,18 @@ ALLOWED_HOSTS = ['gonzalohd.eu', 'plantsapi.gonzalohd.eu', 'localhost', '192.168
 
 CSRF_TRUSTED_ORIGINS = [
     "https://succulentspectrum.gonzalohd.eu",
+    "https://plantsapi.gonzalohd.eu",
+    "http://localhost:5173",  # local development URL
+]
+
+CORS_ALLOW_HEADERS = [
+    'authorization',
+    'content-type',
+    'accept',
+    'origin',
+    'x-requested-with',
+    'user-agent',
+    'accept-language',
 ]
 
 
@@ -63,6 +74,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+USE_X_FORWARDED_HOST = True
+
+
 CORS_ALLOW_ALL_ORIGINS = True  # Allow all origins for development
 
 ROOT_URLCONF = 'plant_catalog.urls'
@@ -91,6 +107,14 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PARSER_CLASSES': (
         'rest_framework.parsers.JSONParser',
+        'rest_framework.parsers.FormParser',
+        'rest_framework.parsers.MultiPartParser',
+    ),
+        'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
     ),
 }
 
@@ -191,4 +215,4 @@ LOGGING = {
 
 
 
-USE_X_FORWARDED_HOST = True
+
